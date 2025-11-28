@@ -1,0 +1,54 @@
+name: Debug Azure VM Connection
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debug-vm:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Debug SSH Connection to Azure VM
+      uses: appleboy/ssh-action@v0.1.9
+      with:
+        host: ${{ secrets.AZURE_VM_HOST }}
+        username: ${{ secrets.AZURE_VM_USER }}
+        key: ${{ secrets.AZURE_SSH_PRIVATE_KEY }}
+        script: |
+          echo "=== BASIC SERVER INFO ==="
+          echo "Username: $(whoami)"
+          echo "Hostname: $(hostname)"
+          echo "Current directory: $(pwd)"
+          echo "Home directory: $HOME"
+          
+          echo ""
+          echo "=== DOCKER COMPOSE FILES ==="
+          ls -la *.yml *.yaml 2>/dev/null || echo "No compose files found in current directory"
+          
+          echo ""
+          echo "=== DOCKER INFO ==="
+          docker --version
+          docker compose version
+          
+          echo ""
+          echo "=== RUNNING CONTAINERS ==="
+          docker ps
+          
+          echo ""
+          echo "=== HOME DIRECTORY CONTENTS ==="
+          ls -la ~/
+          
+          echo ""
+          echo "=== CURRENT DIRECTORY CONTENTS ==="
+          ls -la
+          
+          echo ""
+          echo "=== CHECK SPECIFIC COMPOSE FILE ==="
+          if [ -f "docker-compose.yml" ]; then
+            echo "docker-compose.yml exists"
+            head -20 docker-compose.yml
+          elif [ -f "docker-compose.yaml" ]; then
+            echo "docker-compose.yaml exists"
+            head -20 docker-compose.yaml
+          else
+            echo "No docker-compose file found"
+          fi
