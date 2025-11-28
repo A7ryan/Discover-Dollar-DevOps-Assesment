@@ -40,6 +40,10 @@ jobs:
           script: |
             export FRONTEND_TAG=${IMAGE_TAG}
             cd ~
-            echo "Pulling new frontend image with tag: $FRONTEND_TAG"
-            sudo docker compose -f docker-compose.yaml pull
-            sudo docker compose -f docker-compose.yaml up -d
+                  sudo docker stop frontend
+                  sudo docker rm frontend
+                  sudo docker pull a7ryan/dd-frontend:$FRONTEND_TAG
+                  sudo docker compose -f docker-compose.yaml up -d frontend
+                  
+                  echo "Frontend updated to tag: $FRONTEND_TAG"
+
