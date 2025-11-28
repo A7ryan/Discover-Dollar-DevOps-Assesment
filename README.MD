@@ -1,129 +1,120 @@
-1. Repository Structure
-root/
-│
-├── crud-dd-task-mean-app/
-│   ├── backend/
-│   ├── frontend/
-│   └── README.md
-│
-├── docker-compose.yaml
-├── nginx.conf
-├── nginx-dockerfile
-│
-└── .github/workflows/
-    ├── backend.yml
-    └── frontend.yml
+## Live Deployment
 
-2. Backend Configuration
+ ![deployment](https://github.com/A7ryan/Discover-Dollar-DevOps-Assesment/blob/main/images/website.png) 
 
-Location: crud-dd-task-mean-app/backend/
 
-Key Update:
 
-Modified MongoDB URL to ensure backend connects to MongoDB inside Docker Compose.
-url: "mongodb://mongodb:27017/dd_db"
-Backend Dockerfile included and functional.
-Backend image pushed to Docker Hub:
+### 1. Repository Structure
+
+   - root/
+   - │
+   - ├── crud-dd-task-mean-app/
+   - ├── backend/
+   - │   ├── frontend/
+   - │   └── README.md
+   - │
+   - ├── docker-compose.yaml
+   - ├── nginx.conf
+   - ├── nginx-dockerfile
+   - │
+   - └── .github/workflows/
+   -     ├── backend.yml
+   -     └── frontend.yml
+
+---
+
+### 2. Backend Configuration
+
+- Location: crud-dd-task-mean-app/backend/
+
+- Key Update:
+
+- Modified MongoDB URL to ensure backend connects to MongoDB inside Docker Compose.
+- url: "mongodb://mongodb:27017/dd_db"
+- Backend Dockerfile included and functional.
+- Backend image pushed to Docker Hub:
 a7ryan/dd-backend
 
-3. Frontend Configuration
+---
 
-Location: crud-dd-task-mean-app/frontend/
+### 3. Frontend Configuration
+
+- Location: crud-dd-task-mean-app/frontend/
 API route modification:
-Updated API base URL so Angular frontend communicates through the reverse proxy.
-const baseUrl = '/api/tutorials';
-Frontend Dockerfile included and functional.
-Frontend image pushed to Docker Hub:
-a7ryan/dd-frontend
 
-4. Nginx Reverse Proxy Configuration
+- Updated API base URL so Angular frontend communicates through the reverse proxy.
 
-Nginx configured to listen on port 80.
-Configuration file: nginx.conf
-Nginx image built and pushed:
-a7ryan/dd-nginx
+- const baseUrl = '/api/tutorials';
 
+- Frontend Dockerfile included and functional.
 
-5. Docker Compose Setup
+- Frontend image pushed to Docker Hub:
 
-File: docker-compose.yaml
+- a7ryan/dd-frontend
 
-Components included:
+---
 
-Frontend container
+### 4. Nginx Reverse Proxy Configuration
 
-Backend container
+- Nginx configured to listen on port 80.
 
-MongoDB container
+- Configuration file: nginx.conf
 
-Nginx reverse proxy
+- Nginx image built and pushed:
 
-Services connected using Docker internal networking.
+- a7ryan/dd-nginx
 
 
-7. CI/CD Pipeline (GitHub Actions)
+---
 
-Workflow files located at:
+### 5. Docker Compose Setup
 
-.github/workflows/backend.yml
+- File: docker-compose.yaml
 
-.github/workflows/frontend.yml
+- Components included:
 
-CI/CD Workflow Summary:
+- Frontend container
 
-Builds Docker images for every push and manual trigger.
+- Backend container
 
-Tags images with commit SHA and latest.
+- MongoDB container
 
-Pushes images to Docker Hub.
+- Nginx reverse proxy
 
-Deployment step is ready but currently not operational due to VM SSH key error.
+- Services connected using Docker internal networking.
 
-8. Cloud Deployment Status
+---
 
-A new Ubuntu VM was created for deployment.
+### 6. CI/CD Pipeline (GitHub Actions)
 
-The following were successfully configured:
+- Workflow files located at:
 
-Docker installation
+- .github/workflows/backend.yml
 
-Docker Compose installation
+- .github/workflows/frontend.yml
 
-Firewall for port 80
+- CI/CD Workflow Summary:
 
-Initial SSH setup
+- Builds Docker images for every push and manual trigger.
 
-Deployment could not be completed due to:
+- Tags images with commit SHA and latest.
 
-Public SSH RSA key mismatch error.
+- Pushes images to Docker Hub.
 
-Once SSH access is restored, deployment can be completed using:
+- Updates on the server vm.
 
+---
 
-9. Screenshots (images)
+### 7. Cloud Deployment Status
 
-CI/CD pipeline run history
+- A new Ubuntu VM was created for deployment.
 
-Docker image builds
+- The following were successfully configured:
 
-Docker Hub repositories
+- Docker installation
 
-Local application execution
+- Docker Compose installation
 
-Nginx reverse proxy setup
+- Firewall for port 80
 
-10. Deliverables Checklist
-
-Dockerfiles for backend and frontend
-
-Nginx configuration and Dockerfile
-
-Docker Compose file
-
-MongoDB setup through Docker Compose
-
-CI/CD pipeline using GitHub Actions
-
-Cloud VM deployment prepared but pending due to SSH authentication issue
-
-The CI/CD pipeline and container structure are fully operational and ready for deployment once SSH access is resolved.
+- Initial SSH setup
