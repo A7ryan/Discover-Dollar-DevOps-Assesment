@@ -23,12 +23,12 @@ jobs:
 
       - name: Build Backend Docker Image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/backend:${IMAGE_TAG} \
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/dd-backend:${IMAGE_TAG} \
                        ./crud-dd-task-mean-app/backend
 
       - name: Push Backend Docker Images
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/backend:${IMAGE_TAG}
+          docker push ${{ secrets.DOCKER_USERNAME }}/dd-backend:${IMAGE_TAG}
 
       - name: Deploy to Azure VM via SSH
         uses: appleboy/ssh-action@v0.1.9
