@@ -9,6 +9,8 @@ on:
 jobs:
   build-frontend:
     runs-on: ubuntu-latest
+    env:
+      IMAGE_TAG: ${{ github.sha }}
 
     steps:
       - uses: actions/checkout@v3
@@ -21,8 +23,21 @@ jobs:
 
       - name: Build Frontend Docker Image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/frontend:latest ./crud-dd-task-mean-app/frontend
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/frontend:${IMAGE_TAG} \
+                       ./crud-dd-task-mean-app/frontend
 
-      - name: Push Frontend Docker Image
+      - name: Push Frontend Docker Images
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/frontend:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/frontend:${IMAGE_TAG}
+
+      - name: Deploy to Azure VM via SSH
+        uses: appleboy/ssh-action@v0.1.9
+        with:
+          host: ${{ secrets.AZURE_VM_HOST }}
+          username: ${{ secrets.AZURE_VM_USER }}
+          key: ${{ secrets.AZURE_SSH_PRIVATE_KEY }}
+          script: |
+            export FRONTEND_TAG=${IMAGE_TAG}
+            cd ~
+            docker-compose pull
+            docker-compose up -d
