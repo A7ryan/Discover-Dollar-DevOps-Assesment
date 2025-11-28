@@ -39,5 +39,6 @@ jobs:
           script: |
             export FRONTEND_TAG=${IMAGE_TAG}
             cd ~
+            echo "Pulling new frontend image with tag: $FRONTEND_TAG"
             docker compose -f docker-compose.yaml pull
             docker compose -f docker-compose.yaml up -d
