@@ -39,5 +39,9 @@ jobs:
           script: |
             export BACKEND_TAG=${IMAGE_TAG}
             cd ~
-            docker compose pull
-            docker compose up -d
+            sudo docker stop backend
+            sudo docker rm backend
+            sudo docker pull a7ryan/dd-backend:$BACKEND_TAG
+            sudo docker compose -f docker-compose.yaml up -d backend
+                  
+            echo "Backend updated to tag: $BACKEND_TAG"
