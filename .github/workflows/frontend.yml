@@ -39,5 +39,5 @@ jobs:
           script: |
             export FRONTEND_TAG=${IMAGE_TAG}
             cd ~
-            docker compose pull
-            docker compose up -d
+            docker compose -f docker-compose.yaml pull
+            docker compose -f docker-compose.yaml up -d
