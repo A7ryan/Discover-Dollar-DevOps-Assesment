@@ -9,6 +9,8 @@ on:
 jobs:
   build-backend:
     runs-on: ubuntu-latest
+    env:
+      IMAGE_TAG: ${{ github.sha }}
 
     steps:
       - uses: actions/checkout@v3
@@ -21,8 +23,21 @@ jobs:
 
       - name: Build Backend Docker Image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/backend:latest ./crud-dd-task-mean-app/backend
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/backend:${IMAGE_TAG} \
+                       ./crud-dd-task-mean-app/backend
 
-      - name: Push Backend Docker Image
+      - name: Push Backend Docker Images
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/backend:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/backend:${IMAGE_TAG}
+
+      - name: Deploy to Azure VM via SSH
+        uses: appleboy/ssh-action@v0.1.9
+        with:
+          host: ${{ secrets.AZURE_VM_HOST }}
+          username: ${{ secrets.AZURE_VM_USER }}
+          key: ${{ secrets.AZURE_SSH_PRIVATE_KEY }}
+          script: |
+            export BACKEND_TAG=${IMAGE_TAG}
+            cd ~
+            docker-compose pull
+            docker-compose up -d
