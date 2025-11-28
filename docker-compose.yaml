@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  proxy:
+    image: a7ryan/dd-nginx:${NGINX_TAG:-latest}
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+    restart: always
+
+  frontend:
+    image: a7ryan/dd-frontend:${FRONTEND_TAG:-latest}
+    container_name: frontend
+    ports:
+      - "8081:8081"
+    restart: always
+
+  backend:
+    image: a7ryan/dd-backend:${BACKEND_TAG:-latest}
+    container_name: backend
+    ports:
+      - "8080:8080"
+    restart: always
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    restart: always
